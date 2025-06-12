@@ -260,3 +260,9 @@ class simulador_urgencia {
         }
     }
 }
+public class Main {
+    public static void main(String[] args) throws IOException {
+        simulador_urgencia simulador = new simulador_urgencia();
+        simulador.simular(200); 
+    }
+}
