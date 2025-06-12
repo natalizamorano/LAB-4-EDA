@@ -1,5 +1,5 @@
-# LAB-4-EDA
-import java.util.*;
+#LAB-4-EDA
+    import java.util.*;
 import java.io.*;
 
 class paciente {
@@ -256,13 +256,33 @@ class simulador_urgencia {
                             hospital.pacientes_excedieron_tiempo.get(cat),
                             hospital.peores_tiempos_espera.get(cat));
                 }
-            }
+            } 
         }
+        System.out.println("Categorías más afectadas por demora:");
+for (int cat = 1; cat <= 5; cat++) {
+    System.out.printf("C%d - Excedidos: %d | Peor espera: %d minutos\n",
+        cat,
+        hospital.pacientes_excedieron_tiempo.get(cat),
+        hospital.peores_tiempos_espera.get(cat));
+}
+paciente malCategorizado = pacientes.stream()
+        .filter(p -> p.categoria == 3)
+        .findFirst()
+        .orElse(null);
+
+if (malCategorizado != null) {
+    hospital.reasignar_categoria(malCategorizado.id, 1);
+    System.out.println("Paciente mal categorizado corregido: " + malCategorizado.nombre + " " + malCategorizado.apellido);
+    System.out.println("Historial de cambios:");
+    while (!malCategorizado.historial_de_cambios.isEmpty()) {
+        System.out.println(" - " + malCategorizado.obtener_ultimo_cambio());
+    }
+}
     }
 }
 public class Main {
     public static void main(String[] args) throws IOException {
         simulador_urgencia simulador = new simulador_urgencia();
-        simulador.simular(200); 
+        simulador.simular(200);
     }
 }
