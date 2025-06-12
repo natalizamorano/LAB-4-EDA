@@ -114,6 +114,9 @@ class hospital {
             cola_de_atencion.add(p);
         }
     }
+    public area_de_atencion obtenerArea(String nombre) {
+    return areas_de_atencion.get(nombre);
+}
     public paciente atender_siguiente(long tiempo_actual) {
         paciente p = cola_de_atencion.poll();
         if (p != null) {
@@ -207,7 +210,7 @@ class generador_pacientes {
         }
     }
 }
-public class Main {
+public void simular(int pacientesPorDia) {
     public static void main(String[] args) throws IOException {
         long tiempo_inicio = System.currentTimeMillis();
         generador_pacientes generador = new generador_pacientes();
