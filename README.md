@@ -210,18 +210,22 @@ class generador_pacientes {
         }
     }
 }
-public void simular(int pacientesPorDia) {
-    public static void main(String[] args) throws IOException {
+class simulador_urgencia {
+    private generador_pacientes generador;
+    private hospital hospital;
+    public simulador_urgencia() {
+        this.generador = new generador_pacientes();
+        this.hospital = new hospital();
+    }
+    public void simular(int pacientesPorDia) throws IOException {
         long tiempo_inicio = System.currentTimeMillis();
-        generador_pacientes generador = new generador_pacientes();
-        List<paciente> pacientes = generador.generar_lista_pacientes(200, tiempo_inicio);
+        List<paciente> pacientes = generador.generar_lista_pacientes(pacientesPorDia, tiempo_inicio);
         generador.guardar_pacientes_en_archivo(pacientes, "Pacientes_24h.txt");
-        hospital hospital = new hospital();
         int contador_nuevos = 0;
         for (int minuto = 0; minuto < 1440; minuto++) {
             long tiempo_actual = tiempo_inicio + (minuto * 60 * 1000);
-            if (minuto % 10 == 0 && minuto/10 < pacientes.size()) {
-                hospital.registrar_paciente(pacientes.get(minuto/10));
+            if (minuto % 10 == 0 && minuto / 10 < pacientes.size()) {
+                hospital.registrar_paciente(pacientes.get(minuto / 10));
                 contador_nuevos++;
                 if (contador_nuevos >= 3) {
                     hospital.atender_siguiente(tiempo_actual);
@@ -243,7 +247,7 @@ public void simular(int pacientesPorDia) {
                 }
             }
             if (minuto % 60 == 0) {
-                System.out.println("=== Reporte hora " + (minuto/60) + " ===");
+                System.out.println("=== Reporte hora " + (minuto / 60) + " ===");
                 for (int cat = 1; cat <= 5; cat++) {
                     System.out.printf("C%d: Atendidos=%d | Espera promedio=%.1f min | Excedidos=%d | Peor espera=%d%n",
                             cat,
